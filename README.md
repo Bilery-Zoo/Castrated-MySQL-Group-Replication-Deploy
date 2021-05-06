@@ -51,10 +51,3 @@ Script usage:
 Your attention:
 
 	each of scripts should optionally do the parameters resetting at mascot area before executing
-
-
-TODO list:
-
-	0. benchmark test
-	1. system variables tuning
-	2. monitoring program deploy
