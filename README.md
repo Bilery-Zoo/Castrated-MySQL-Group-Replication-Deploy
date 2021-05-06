@@ -50,4 +50,4 @@ Script usage:
 
 Your attention:
 
-	each of scripts should optionally do the parameters resetting at mascot area before executing
+	Each of scripts should optionally do the parameters resetting at mascot area before executing
