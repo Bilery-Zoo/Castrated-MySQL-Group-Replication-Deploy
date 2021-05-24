@@ -47,7 +47,7 @@ group_replication_group_seeds="192.168.67.128:${mgr_port},192.168.67.139:${mgr_p
 
 
 function localize_os_setting() {
-    firewall-cmd --add-port=${mgr_port}/tcp --permanent > /dev/null && systemctl restart firewalld.service
+    systemctl start firewalld && firewall-cmd --add-port=${mgr_port}/tcp --permanent > /dev/null && systemctl restart firewalld.service
     if [ $? -eq 0 ]; then
         echo 'Localize OS setting success'
     else
