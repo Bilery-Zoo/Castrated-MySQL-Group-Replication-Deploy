@@ -24,7 +24,7 @@ router_destination=192.168.67.128:3306,192.168.67.139:3306
 
 
 function localize_os_setting() {
-    firewall-cmd --add-port=${router_port}/tcp --permanent > /dev/null && systemctl restart firewalld.service
+    systemctl start firewalld && firewall-cmd --add-port=${router_port}/tcp --permanent > /dev/null && systemctl restart firewalld.service
     local exit_code_add_port=$?
     timedatectl set-timezone Asia/Tokyo && timedatectl set-local-rtc off && timedatectl set-ntp yes
     local exit_code_set_tz=$?
