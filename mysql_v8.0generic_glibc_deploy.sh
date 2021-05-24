@@ -24,7 +24,7 @@ local_host=$(ip address | grep -E '([[:digit:]]{1,3}[.]){3}([[:digit:]]{1,3})' |
 
 
 function localize_os_setting() {
-    firewall-cmd --add-port=3306/tcp --permanent > /dev/null && systemctl restart firewalld.service
+    systemctl start firewalld && firewall-cmd --add-port=3306/tcp --permanent > /dev/null && systemctl restart firewalld.service
     local exit_code_add_port=$?
     timedatectl set-timezone Asia/Tokyo && timedatectl set-local-rtc off && timedatectl set-ntp yes
     local exit_code_set_tz=$?
