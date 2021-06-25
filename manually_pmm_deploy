@@ -42,7 +42,7 @@ PMM server:
 	Then can login PMM HOME at
 		https://${MY.PMM.SERVER.IP}:443
 		http://${MY.PMM.SERVER.IP}:80
-	Default `username' and `password' both are 'admin'.
+	Default `username' and `password' both are 'admin'
 
 
 PMM client
