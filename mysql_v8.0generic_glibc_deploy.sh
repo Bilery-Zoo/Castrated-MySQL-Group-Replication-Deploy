@@ -43,8 +43,8 @@ function create_cnf_file() {
     fi
     (
         cat << EOF
-# author  : Bilery Zoo(bilery.zoo@gmail.com)
-# date    : 2021-04-24
+# author    : xinle.zhao@healthcare-tech.co.jp
+# create_ts : 2021-03-31
 
 
 # This option file(--defaults-file) is generally configured for MySQL 8.0.24
@@ -62,7 +62,7 @@ default-character-set = utf8mb4
 
 
 [mysqld]
-# file system
+    ## file system
 basedir = ${base_dir}
 datadir = ${base_dir}/data
 socket	= ${base_dir}/data/mysql.sock
@@ -74,14 +74,15 @@ relay_log = ${base_dir}/data/mysql-relay-bin
 log-bin-index = ${base_dir}/data/mysql-bin.index
 relay_log_index = ${base_dir}/data/mysql-relay-bin.index
 slow_query_log_file = ${base_dir}/data/mysql-slow.log
-# server general config
+    ## server general config
+back_log = 1024
 skip_name_resolve = ON
 log_timestamps = SYSTEM
 log_error_verbosity = 3
 lower_case_table_names = 1
 default-time-zone = '+9:00'
 character_set_server = utf8mb4
-back_log = 1024
+plugin-load-add = mysql_clone.so
 	## timeout args
 wait_timeout = 600
 interactive_timeout = 600
@@ -131,15 +132,18 @@ binlog_expire_logs_seconds = 604800
 explicit_defaults_for_timestamp = ON
 transaction_write_set_extraction = XXHASH64
 binlog_transaction_dependency_tracking = WRITESET
-# high availability config
+    ## high availability config
 sync_binlog = 1
 innodb_doublewrite = ON
 innodb_flush_method = O_DIRECT
 innodb_flush_log_at_trx_commit = 1
 binlog_group_commit_sync_delay = 0
 binlog_group_commit_sync_no_delay_count = 0
-# clone plugin
-plugin-load-add = mysql_clone.so
+    ## PMM
+performance_schema = ON
+innodb_monitor_enable = all
+performance-schema-instrument = 'statement/%=ON'
+performance-schema-consumer-statements-digest = ON
 
 
 [mysqldump]
