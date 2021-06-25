@@ -1,0 +1,73 @@
+Author : Bilery Zoo(bilery.zoo@gmail.com)
+Date   : 2021-06-25
+
+
+           　　 　 　　　　 　 |＼＿/|
+           　　 　 　　　　 　 | ・x・ |
+           　　 ＼＿＿＿＿＿／　　　 |
+           　　 　 |　　　 　　　　　|
+           　　　　＼　　　　　 　ノ
+           　（（（　(/￣￣￣￣(/ヽ)
+
+
+Preface:
+
+    Draft of manually deploying Percona Monitoring and Management(PMM) V2, see also
+		https://www.percona.com/software/pmm/quickstart#mysql80
+		https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/server/network.html
+		https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/server/docker.html
+		https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/index.html#register
+		https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/mysql.html
+
+
+PMM server:
+
+	Open ports
+		shell> firewall-cmd --add-port=80/tcp --permanent
+		shell> firewall-cmd --add-port=443/tcp --permanent
+		shell> systemctl restart firewalld.service
+
+	Install Docker
+		shell> yum install -y yum-utils
+		shell> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+		shell> yum install -y docker-ce
+		shell> systemctl enable docker
+		shell> systemctl start docker
+
+	Deploy PMM server
+		shell> docker pull percona/pmm-server:2
+		shell> docker create --volume /srv --name pmm-data percona/pmm-server:2 /bin/true
+		shell> docker run --detach --restart always --publish 80:80 --publish 443:443 --volumes-from pmm-data --name pmm-server percona/pmm-server:2
+
+	Then can login PMM HOME at
+		https://${MY.PMM.SERVER.IP}:443
+		http://${MY.PMM.SERVER.IP}:80
+	Default `username' and `password' both are 'admin'.
+
+
+PMM client
+
+	Config MySQL server
+		Optionally append variables below into [mysqld] group of MySQL option file
+			[mysqld]
+				## PMM
+			performance_schema = ON
+			innodb_monitor_enable = all
+			performance-schema-instrument = 'statement/%=ON'
+			performance-schema-consumer-statements-digest = ON
+
+	Create PMM account
+		mysql> CREATE USER '${MY-MYSQL-PMM-USER}'@'localhost' IDENTIFIED BY '${MY-MYSQL-PMM-PASSWORD}' WITH MAX_USER_CONNECTIONS 10;
+		mysql> GRANT SELECT, PROCESS, SUPER, REPLICATION CLIENT, RELOAD ON *.* TO '${MY-MYSQL-PMM-USER}'@'localhost';
+
+	Open ports
+		shell> firewall-cmd --add-port=42000-42002/tcp --permanent
+		shell> systemctl restart firewalld.service
+
+	Install PMM client
+		shell> yum install -y https://repo.percona.com/yum/percona-release-latest.noarch.rpm
+		shell> yum install -y pmm2-client
+
+	Add client service
+		shell> pmm-admin config --server-insecure-tls --server-url=https://admin:admin@${MY.PMM.SERVER.IP}:443
+		shell> pmm-admin add mysql --socket=${MY-MYSQL-CONNECTION-SOCKET} --username=${MY-MYSQL-PMM-USER} --password=${MY-MYSQL-PMM-PASSWORD} --query-source=perfschema --environment=test --custom-labels='source=perfschema'
