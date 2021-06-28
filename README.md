@@ -37,7 +37,7 @@ Script usage:
 		
 	1. mysqlrouter_v8.0generic_glibc_deploy.sh
 	
-		deploy mysqlrouter
+		deploy mysqlrouter service
 		
 	2. async_replication_set.sh
 	
