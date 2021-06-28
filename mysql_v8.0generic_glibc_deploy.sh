@@ -132,14 +132,14 @@ binlog_expire_logs_seconds = 604800
 explicit_defaults_for_timestamp = ON
 transaction_write_set_extraction = XXHASH64
 binlog_transaction_dependency_tracking = WRITESET
-    ## high availability config
+	## high availability config
 sync_binlog = 1
 innodb_doublewrite = ON
 innodb_flush_method = O_DIRECT
 innodb_flush_log_at_trx_commit = 1
 binlog_group_commit_sync_delay = 0
 binlog_group_commit_sync_no_delay_count = 0
-    ## PMM
+	## PMM
 performance_schema = ON
 innodb_monitor_enable = all
 performance-schema-instrument = 'statement/%=ON'
