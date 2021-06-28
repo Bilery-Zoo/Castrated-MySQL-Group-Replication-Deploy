@@ -62,7 +62,7 @@ default-character-set = utf8mb4
 
 
 [mysqld]
-    ## file system
+	## file system
 basedir = ${base_dir}
 datadir = ${base_dir}/data
 socket	= ${base_dir}/data/mysql.sock
@@ -74,7 +74,7 @@ relay_log = ${base_dir}/data/mysql-relay-bin
 log-bin-index = ${base_dir}/data/mysql-bin.index
 relay_log_index = ${base_dir}/data/mysql-relay-bin.index
 slow_query_log_file = ${base_dir}/data/mysql-slow.log
-    ## server general config
+	## server general config
 back_log = 1024
 skip_name_resolve = ON
 log_timestamps = SYSTEM
