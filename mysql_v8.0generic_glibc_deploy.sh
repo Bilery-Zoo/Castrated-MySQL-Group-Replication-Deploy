@@ -43,7 +43,7 @@ function create_cnf_file() {
     fi
     (
         cat << EOF
-# author    : xinle.zhao@healthcare-tech.co.jp
+# author  : Bilery Zoo(bilery.zoo@gmail.com)
 # create_ts : 2021-03-31
 
 
