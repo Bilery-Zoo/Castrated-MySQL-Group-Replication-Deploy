@@ -17,7 +17,6 @@
 #
 base_dir=/usr/local/mysqlrouter
 router_port=33066
-router_host=$(ip address | grep -E '([[:digit:]]{1,3}[.]){3}([[:digit:]]{1,3})' | grep -v '127.0.0.1' | awk '{ print $2 }' | awk -F / '{ print $1 }')
 router_destination=192.168.67.128:3306,192.168.67.139:3306
 #
 # *******************************************************************************
@@ -65,9 +64,10 @@ timestamp_precision = second
 
 
 [routing:failover]
+protocol = classic
 routing_strategy = first-available
 bind_port = ${router_port}
-bind_address = ${router_host}
+bind_address = 127.0.0.1
 destinations = ${router_destination}
 
 EOF
