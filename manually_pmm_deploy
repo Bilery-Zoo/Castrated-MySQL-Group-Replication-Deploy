@@ -25,6 +25,7 @@ PMM server:
 	Open ports
 		shell> firewall-cmd --add-port=80/tcp --permanent
 		shell> firewall-cmd --add-port=443/tcp --permanent
+		shell> firewall-cmd --add-port=7771/tcp --permanent
 		shell> systemctl restart firewalld.service
 
 	Install Docker
@@ -61,6 +62,7 @@ PMM client
 		mysql> GRANT SELECT, PROCESS, SUPER, REPLICATION CLIENT, RELOAD ON *.* TO '${MY-MYSQL-PMM-USER}'@'localhost';
 
 	Open ports
+		shell> firewall-cmd --add-port=8428/tcp --permanent
 		shell> firewall-cmd --add-port=42000-42002/tcp --permanent
 		shell> systemctl restart firewalld.service
 
