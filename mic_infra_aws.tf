@@ -1,7 +1,7 @@
 /*
 * author    : Bilery Zoo(bilery.zoo@gmail.com)
 * create_ts : 2021-08-20
-* remark    : This Terraform tf file is to generally create a POC infra environment of castrated MySQL InnoDB Cluster(MIC)
+* remark    : This Terraform tf file is to generally create a POC infra environment of castrated MySQL InnoDB Cluster(MIC) at AWS
 */
 
 
