@@ -5,6 +5,17 @@
 */
 
 
+# Your attention to define your public key below
+resource "aws_key_pair" "mic-poc" {
+  key_name   = "mic-poc"
+  public_key = "ssh-rsa ****** "
+  tags       = {
+    "Name"    = "mic-poc"
+    "Service" = "MySQL,MySQL Router,"
+    "Utility" = "pmm,"
+  }
+}
+
 resource "aws_vpc" "mic-vpc-poc" {
   assign_generated_ipv6_cidr_block = false
   cidr_block                       = "24.24.24.0/28"
@@ -285,17 +296,6 @@ resource "aws_route_table" "mic-admin-rtb-poc" {
     "Utility" = "pmm,"
   }
   vpc_id = aws_vpc.mic-vpc-poc.id
-}
-
-# Your attention to define your public key below
-resource "aws_key_pair" "mic-poc" {
-  key_name   = "mic-poc"
-  public_key = "ssh-rsa ****** "
-  tags       = {
-    "Name"    = "mic-poc"
-    "Service" = "MySQL,MySQL Router,"
-    "Utility" = "pmm,"
-  }
 }
 
 resource "aws_instance" "mic-admin-ec2-poc" {
